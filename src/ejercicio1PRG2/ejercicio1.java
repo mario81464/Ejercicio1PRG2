@@ -1,5 +1,4 @@
 package ejercicio1PRG2;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -66,7 +65,11 @@ public class ejercicio1 {
 	public static void imprimeMatriz(int matriz[][], int tam, int i, int j) {
 		if(i<tam) {
 			if(j<tam) {
-				System.out.print(matriz[i][j]+" ");
+				if(j==tam-1){
+				    System.out.print(matriz[i][j]);
+				}else{
+				    System.out.print(matriz[i][j]+" ");
+				}
 				imprimeMatriz(matriz,tam,i,j+1);
 			}
 			
