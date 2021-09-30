@@ -49,7 +49,7 @@ public class ejercicio1 {
 	
 	public static int esNumeroCorrecto(int num) {
 		if(num>=10) {
-			if(esNumeroCorrecto(num/10)==1 && esNumeroCorrecto(num%23)+14==0) {
+			if(esNumeroCorrecto(num/10)==1 && esNumeroCorrecto(num%23 +14)==0) {
 				return 1;
 			}else {
 				return 0;
@@ -80,12 +80,11 @@ public class ejercicio1 {
 	public static void imprimeMatrices(ArrayList<int[][]>lista,ArrayList<int[][]>traspuestas,ArrayList<Integer>tamaños, int i) {
 		if(i<lista.size()) {
 			if(sonSimetricas(lista.get(i),traspuestas.get(i),tamaños.get(i),0,0)){
-				System.out.println("SI");
+				System.out.println("SÍ");
 			}else {
 				System.out.println("NO");
 			}
 			imprimeMatriz(lista.get(i),tamaños.get(i),0,0);
-			System.out.println();
 			imprimeMatrices(lista,traspuestas,tamaños,i+1);
 		}
 	}
