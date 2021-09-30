@@ -108,7 +108,7 @@ public class ejercicio1 {
 				return sonSimetricas(matriz1,matriz2,tam,i+1,0);
 			}
 		}
-		return true;
+		return true;	//revisar
 	}
 	
 }
