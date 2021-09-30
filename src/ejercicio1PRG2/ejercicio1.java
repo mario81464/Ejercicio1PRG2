@@ -12,27 +12,41 @@ public class ejercicio1 {
 		ArrayList<int[][]>traspuestas= new ArrayList<int[][]>();
 		ArrayList<Integer>tamaños=new ArrayList<Integer>();
 	
-		
-		while(tam!=0) {
-			int matriz[][]= new int[tam][tam];
-			tamaños.add(tam);
-			for(int i=0;i<tam;i++) {
-				for(int j=0;j<tam;j++) {
-					matriz[i][j]= esNumeroCorrecto(sc.nextInt());
-				}
-			}
-			matrices.add(matriz);
-			traspuestas.add(matriz);
-			tam=sc.nextInt();
-		}
-		calcularTraspuestas(matrices,traspuestas,tamaños,0);
+		leerMatrices(matrices,traspuestas,tamaños,tam,sc);
+		calcularTraspuestas(traspuestas,tamaños,0);	
 		imprimeMatrices(matrices,traspuestas,tamaños,0);
-		imprimeMatriz(traspuestas.get(0),3,0,0);
-		System.out.println();
-		imprimeMatriz(traspuestas.get(1),2,0,0);
 
 	}
-
+	
+	public static void leerMatrices(ArrayList<int[][]>listaMatrices,ArrayList<int[][]>traspuestas,ArrayList<Integer>tamaños,int tam,Scanner sc) {
+		if(tam!=0) {
+			int matriz[][]= new int[tam][tam];
+			int futuraTraspuesta[][]= new int[tam][tam];
+			tamaños.add(tam);
+			leerMatriz(sc,matriz,futuraTraspuesta,tam,0,0);
+			listaMatrices.add(matriz);
+			traspuestas.add(futuraTraspuesta);
+			tam=sc.nextInt();
+			leerMatrices(listaMatrices,traspuestas,tamaños,tam,sc);
+		}
+	}
+	
+	public static void leerMatriz(Scanner sc,int matriz[][],int futuraTraspuesta[][],int tam, int i, int j) {
+		int n;
+		if(i<tam) {
+			if(j<tam) {
+				n = esNumeroCorrecto(sc.nextInt());
+				matriz[i][j]=n;
+				futuraTraspuesta[i][j]=n;
+				leerMatriz(sc,matriz,futuraTraspuesta,tam,i,j+1);
+			}
+			
+			if(j==tam) {
+				leerMatriz(sc,matriz,futuraTraspuesta,tam,i+1,0);
+			}	
+		}
+	}
+	
 	public static int esNumeroCorrecto(int num) {
 		if(num>=10) {
 			if(esNumeroCorrecto(num/10)==1 && esNumeroCorrecto(num%23)+14==0) {
@@ -76,22 +90,27 @@ public class ejercicio1 {
 		}
 	}
 	
-	public static void calcularTraspuesta(int matriz[][], int traspuesta[][], int tam, int i, int j) {
+	public static void calcularTraspuesta(int matriz[][], int tam, int i, int j) {
 		if(i<tam) {
 			if(j<tam) {
-				traspuesta[j][i]=matriz[i][j];
-				calcularTraspuesta(matriz,traspuesta,tam,i,j+1);
+				if(i>j) {
+					int aux;
+					aux = matriz[i][j];
+					matriz[i][j]=matriz[j][i];
+					matriz[j][i]=aux;
+				}
+				calcularTraspuesta(matriz,tam,i,j+1);
 			}
 			if(j==tam) {
-				calcularTraspuesta(matriz,traspuesta,tam,i+1,0);
+				calcularTraspuesta(matriz,tam,i+1,0);
 			}
 		}
 	}
 	
-	public static void calcularTraspuestas(ArrayList<int[][]>matrices,ArrayList<int[][]>traspuestas,ArrayList<Integer>tamaños,int i) {
-		if(i<matrices.size()) {
-			calcularTraspuesta(matrices.get(i),traspuestas.get(i),tamaños.get(i),0,0);
-			calcularTraspuestas(matrices,traspuestas,tamaños,i+1);
+	public static void calcularTraspuestas(ArrayList<int[][]>traspuestas,ArrayList<Integer>tamaños,int i) {
+		if(i<traspuestas.size()) {
+			calcularTraspuesta(traspuestas.get(i),tamaños.get(i),0,0);
+			calcularTraspuestas(traspuestas,tamaños,i+1);
 		}
 	}
 	
@@ -101,14 +120,14 @@ public class ejercicio1 {
 				if(matriz1[i][j]==matriz2[i][j]) {
 					return true && sonSimetricas(matriz1,matriz2,tam,i,j+1);
 				}else {
-					return false && sonSimetricas(matriz1,matriz2,tam,i,j+1);
+					return false;
 				}
 			}
 			if(j==tam) {
 				return sonSimetricas(matriz1,matriz2,tam,i+1,0);
 			}
 		}
-		return true;	//revisar
+		return true;
 	}
 	
 }
